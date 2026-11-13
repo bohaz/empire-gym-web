@@ -283,17 +283,63 @@
     </section>
 
     <!-- Reseñas -->
-    <section class="section section--light section--tight">
-      <div class="container reviews">
-        <div>
-          <p class="pill pill--dark">Reseñas</p>
-          <h2 class="title title--dark">Lo que dicen quienes ya entrenan aquí</h2>
+    <section class="section section--light section--tight" aria-labelledby="resenas-titulo">
+      <div class="container">
+        <header class="reviews__head">
+          <div>
+            <p class="pill pill--dark">Reseñas</p>
+            <h2 class="title title--dark" id="resenas-titulo">Lo que dicen quienes ya entrenan aquí</h2>
+          </div>
+          <div class="reviews__nav">
+            <button class="reviews__btn" type="button" data-dir="-1" aria-label="Reseña anterior">‹</button>
+            <button class="reviews__btn" type="button" data-dir="1" aria-label="Reseña siguiente">›</button>
+          </div>
+        </header>
+
+        <div class="reviews__track" tabindex="0" aria-label="Reseñas de Google, desliza para ver más">
+          <figure class="review">
+            <span class="review__stars" role="img" aria-label="5 de 5 estrellas">★★★★★</span>
+            <blockquote>Excelente atención, personal te guía en uso de máquinas, usuarios podemos ocuparlas sin problema turnándonos.</blockquote>
+            <figcaption>
+              <span class="review__avatar" aria-hidden="true">R</span>
+              <span><b>Rossana B.</b><small>Reseña en Google</small></span>
+            </figcaption>
+          </figure>
+          <figure class="review">
+            <span class="review__stars" role="img" aria-label="5 de 5 estrellas">★★★★★</span>
+            <blockquote>Un lugar completo que están del día 0 con uno, un lugar cálido y de instructoras que te ayudan en todo.</blockquote>
+            <figcaption>
+              <span class="review__avatar" aria-hidden="true">E</span>
+              <span><b>Estrella U.</b><small>Reseña en Google</small></span>
+            </figcaption>
+          </figure>
+          <figure class="review">
+            <span class="review__stars" role="img" aria-label="5 de 5 estrellas">★★★★★</span>
+            <blockquote>Es pequeño, pero con buenas máquinas y mantención, está ordenado, el personal es atento.</blockquote>
+            <figcaption>
+              <span class="review__avatar" aria-hidden="true">R</span>
+              <span><b>Ronald M.</b><small>Reseña en Google</small></span>
+            </figcaption>
+          </figure>
+          <figure class="review">
+            <span class="review__stars" role="img" aria-label="5 de 5 estrellas">★★★★★</span>
+            <blockquote>Buen equipamiento y excelente ambiente.</blockquote>
+            <figcaption>
+              <span class="review__avatar" aria-hidden="true">P</span>
+              <span><b>Pedro O.</b><small>Reseña en Google</small></span>
+            </figcaption>
+          </figure>
+          <figure class="review">
+            <span class="review__stars" role="img" aria-label="5 de 5 estrellas">★★★★★</span>
+            <blockquote>Excelente atención y muy buenas máquinas.</blockquote>
+            <figcaption>
+              <span class="review__avatar" aria-hidden="true">E</span>
+              <span><b>Elías A.</b><small>Reseña en Google</small></span>
+            </figcaption>
+          </figure>
         </div>
-        <a class="review-card" href="https://www.google.com/maps/search/?api=1&amp;query=Empire+Gym+El+Quisco" target="_blank" rel="noopener">
-          <span class="review-card__pin" aria-hidden="true"><svg viewBox="0 0 24 24" width="26" height="26"><path fill="currentColor" d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg></span>
-          <span class="review-card__text">Lee las reseñas de Empire Gym en Google Maps</span>
-          <span class="review-card__go" aria-hidden="true">›</span>
-        </a>
+
+        <a class="reviews__more" href="https://www.google.com/maps/search/?api=1&amp;query=Empire+Gym+El+Quisco" target="_blank" rel="noopener">Ver todas en Google Maps <span aria-hidden="true">›</span></a>
       </div>
     </section>
 
@@ -398,6 +444,23 @@
       burger.addEventListener('click', () => setOpen(burger.getAttribute('aria-expanded') !== 'true'));
       menu.addEventListener('click', (e) => { if (e.target.closest('a')) setOpen(false); });
       document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setOpen(false); });
+    })();
+
+    // Carrusel de reseñas: el deslizamiento es CSS (scroll-snap); las flechas avanzan una tarjeta
+    (() => {
+      const track = document.querySelector('.reviews__track');
+      document.querySelectorAll('.reviews__btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const card = track.querySelector('.review');
+          const step = card.offsetWidth + parseFloat(getComputedStyle(track).columnGap || 0);
+          const atEnd = track.scrollLeft + track.clientWidth >= track.scrollWidth - 4;
+          const atStart = track.scrollLeft <= 4;
+          const dir = Number(btn.dataset.dir);
+          if (dir > 0 && atEnd) track.scrollTo({ left: 0, behavior: 'smooth' });
+          else if (dir < 0 && atStart) track.scrollTo({ left: track.scrollWidth, behavior: 'smooth' });
+          else track.scrollBy({ left: dir * step, behavior: 'smooth' });
+        });
+      });
     })();
   </script>
 </body>
