@@ -5,7 +5,7 @@ Landing page de **Empire Gym**, gimnasio en El Quisco (Isidoro Dubournais 2010 e
 ## Stack
 
 - HTML + CSS puro, sin dependencias ni build.
-- Interacciones solo con CSS: menú móvil con checkbox y preguntas frecuentes con `<details>`.
+- Animaciones y preguntas frecuentes (`<details>`) solo con CSS; un script mínimo abre y cierra el menú móvil sin desplazar la página.
 - Respeta `prefers-reduced-motion`.
 - SEO local: metadatos, Open Graph y datos estructurados `ExerciseGym` (dirección y horarios).
 

@@ -1,7 +1,7 @@
 /* ==========================================================================
    Empire Gym — estilos
    Paleta tomada del logo y las publicaciones: negro, rojo Empire, blanco y
-   gris metálico. Todo es CSS: menú móvil con checkbox y FAQ con <details>.
+   gris metálico. FAQ con <details>; el menú móvil usa un script mínimo.
    ========================================================================== */
 
 :root {
@@ -227,7 +227,6 @@ p { margin: 0 0 1rem; }
 .nav a:not(.btn):hover { color: var(--light); }
 .nav a:not(.btn):hover::after { transform: scaleX(1); }
 
-.nav-toggle { position: absolute; opacity: 0; pointer-events: none; }
 .nav-burger { display: none; }
 
 @media (max-width: 900px) {
@@ -236,6 +235,9 @@ p { margin: 0 0 1rem; }
     place-items: center;
     width: 44px;
     height: 44px;
+    padding: 0;
+    background: none;
+    border: 0;
     cursor: pointer;
   }
   .nav-burger span,
@@ -253,10 +255,9 @@ p { margin: 0 0 1rem; }
   .nav-burger span::before { top: -7px; }
   .nav-burger span::after { top: 7px; }
 
-  .nav-toggle:checked + .nav-burger span { background: transparent; }
-  .nav-toggle:checked + .nav-burger span::before { transform: translateY(7px) rotate(45deg); }
-  .nav-toggle:checked + .nav-burger span::after { transform: translateY(-7px) rotate(-45deg); }
-  .nav-toggle:focus-visible + .nav-burger { outline: 3px solid var(--red); outline-offset: 2px; }
+  .menu-open .nav-burger span { background: transparent; }
+  .menu-open .nav-burger span::before { transform: translateY(7px) rotate(45deg); }
+  .menu-open .nav-burger span::after { transform: translateY(-7px) rotate(-45deg); }
 
   .nav {
     position: absolute;
@@ -267,8 +268,10 @@ p { margin: 0 0 1rem; }
     align-items: stretch;
     gap: 0;
     padding: .5rem 1.25rem 1.5rem;
+    height: calc(100dvh - var(--header-h));
+    overflow-y: auto;
+    overscroll-behavior: contain;
     background: var(--black);
-    border-bottom: 1px solid var(--line);
     clip-path: inset(0 0 100% 0);
     visibility: hidden;
     transition: clip-path .35s var(--ease), visibility .35s;
@@ -276,7 +279,9 @@ p { margin: 0 0 1rem; }
   .nav a:not(.btn) { padding: .95rem 0; font-size: 1.05rem; border-bottom: 1px solid var(--line); }
   .nav a:not(.btn)::after { display: none; }
   .nav .btn { justify-content: center; margin-top: 1.2rem; }
-  .nav-toggle:checked ~ .nav { clip-path: inset(0); visibility: visible; }
+  .menu-open .nav { clip-path: inset(0); visibility: visible; }
+  .menu-open { overflow: hidden; }
+
 }
 
 /* ---------- Hero ---------- */
@@ -713,7 +718,8 @@ p { margin: 0 0 1rem; }
 }
 .info-list dt { font-weight: 700; font-size: .8rem; letter-spacing: .08em; text-transform: uppercase; color: var(--red); }
 .info-list dd { margin: 0; }
-.info-list a { text-decoration-color: var(--red); text-underline-offset: 3px; }
+.info-list a { text-decoration: none; }
+.info-list a:hover { color: var(--red); }
 .location__map {
   min-height: 360px;
   overflow: hidden;
